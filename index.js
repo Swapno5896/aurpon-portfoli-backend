@@ -16,8 +16,13 @@ async function run() {
     try {
         await client.connect()
         const homeContentCollection = client.db('aurpon-backend').collection('home')
-
-
+        // get top banner different data
+        app.get('/home/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const result = await homeContentCollection.findOne(query)
+            res.send(result)
+        })
         app.get('/home', async (req, res) => {
             const query = {}
             const cursor = homeContentCollection.find(query)
